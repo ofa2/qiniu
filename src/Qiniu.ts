@@ -1,6 +1,6 @@
 import qiniu from 'qiniu';
 
-interface IConfig {
+export interface IConfig {
   baseUrl: string;
   accessKey: string;
   secretKey: string;
