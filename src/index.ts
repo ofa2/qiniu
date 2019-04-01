@@ -23,3 +23,5 @@ export default function lift(config: IConfig) {
   // @ts-ignore
   this.qiniu = qiniu;
 }
+
+export { lift };
