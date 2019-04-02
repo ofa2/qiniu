@@ -1,6 +1,6 @@
-import { Qiniu, IConfig } from './Qiniu';
+import { Qiniu, IQiniuConfig } from './Qiniu';
 
-async function lift(this: { config: { qiniu: IConfig }; qiniu?: Qiniu }) {
+async function lift(this: { config: { qiniu: IQiniuConfig }; qiniu?: Qiniu }) {
   if (!this.config.qiniu) {
     throw new Error('no qiniu config found');
   }

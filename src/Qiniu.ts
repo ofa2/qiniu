@@ -1,15 +1,16 @@
 import qiniu from 'qiniu';
 
-export interface IConfig {
+export interface IQiniuConfig {
   baseUrl: string;
   accessKey: string;
   secretKey: string;
   scope: string;
+  fileKeyPrefix?: string;
   zone?: qiniu.conf.Zone;
 }
 
 class Qiniu {
-  private config: IConfig;
+  private config: IQiniuConfig;
 
   private putPolicy: qiniu.rs.PutPolicy;
 
@@ -18,7 +19,7 @@ class Qiniu {
     value: '',
   };
 
-  constructor(config: IConfig) {
+  constructor(config: IQiniuConfig) {
     this.config = config;
 
     this.config.zone = this.config.zone || qiniu.zone.Zone_z0;
@@ -73,7 +74,12 @@ class Qiniu {
     });
   }
 
-  public async uploadBuffer(key: string, buffer: Buffer) {
+  public async uploadBuffer(fileKey: string, buffer: Buffer) {
+    let key = fileKey;
+    if (this.config.fileKeyPrefix) {
+      key = `${this.config.fileKeyPrefix}/${fileKey}`;
+    }
+
     await this.putBuffer(key, buffer);
     return `${this.config.baseUrl}/${key}`;
   }
